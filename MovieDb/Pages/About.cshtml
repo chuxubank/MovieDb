@@ -1,0 +1,27 @@
+﻿@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"]</h2>
+<table>
+    <tr>
+        <th>
+            Release Date
+        </th>
+        <th>
+            &emsp;Movies
+        </th>
+    </tr>
+    @foreach (var item in Model.Movie)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleaseDate)
+        </td>
+        <td>
+            &emsp;@item.MovieCount
+        </td>
+    </tr>
+    }
+</table>
