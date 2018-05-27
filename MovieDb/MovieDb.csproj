@@ -15,6 +15,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Migrations\20180527010913_Movie.Designer.cs" />
+    <Compile Remove="Migrations\20180527010913_Movie.cs" />
+    <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20180527034732_InitialCreate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

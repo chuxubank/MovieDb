@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MovieDb.Migrations
 {
-    public partial class Movie : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,10 +53,12 @@ namespace MovieDb.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    BoxOffice = table.Column<decimal>(nullable: false),
                     Genre = table.Column<string>(maxLength: 30, nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
+                    Poster = table.Column<string>(nullable: true),
                     Rating = table.Column<double>(nullable: false),
                     ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Summary = table.Column<string>(maxLength: 500, nullable: true),
                     Title = table.Column<string>(maxLength: 60, nullable: false)
                 },
                 constraints: table =>

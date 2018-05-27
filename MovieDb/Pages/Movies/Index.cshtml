@@ -30,6 +30,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Poster)
+            </th>
+            <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.TitleSort"
                    asp-route-currentFilter="@Model.CurrentFilter"
                    asp-route-currentMovieGenre="@Model.CurrentMovieGenre">
@@ -44,10 +47,10 @@
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort"
+                <a asp-page="./Index" asp-route-sortOrder="@Model.BoxOfficeSort"
                    asp-route-currentFilter="@Model.CurrentFilter"
                    asp-route-currentMovieGenre="@Model.CurrentMovieGenre">
-                    @Html.DisplayNameFor(model => model.Movie[0].Price)
+                    @Html.DisplayNameFor(model => model.Movie[0].BoxOffice)
                 </a>
             </th>
             <th>
@@ -68,19 +71,25 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Poster)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @Html.DisplayFor(modelItem => item.BoxOffice)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Genre)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
@@ -95,7 +104,6 @@
     var prevDisabled = !Model.Movie.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Movie.HasNextPage ? "disabled" : "";
 }
-
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
    asp-route-pageIndex="@(Model.Movie.PageIndex - 1)"

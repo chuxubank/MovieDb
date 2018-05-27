@@ -24,9 +24,9 @@
                 <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Movie.Price" class="control-label"></label>
-                <input asp-for="Movie.Price" class="form-control" />
-                <span asp-validation-for="Movie.Price" class="text-danger"></span>
+                <label asp-for="Movie.BoxOffice" class="control-label"></label>
+                <input asp-for="Movie.BoxOffice" class="form-control" />
+                <span asp-validation-for="Movie.BoxOffice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Movie.Genre" class="control-label"></label>
@@ -37,6 +37,16 @@
                 <label asp-for="Movie.Rating" class="control-label"></label>
                 <input asp-for="Movie.Rating" class="form-control" />
                 <span asp-validation-for="Movie.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Summary" class="control-label"></label>
+                <input asp-for="Movie.Summary" class="form-control" />
+                <span asp-validation-for="Movie.Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Poster" class="control-label"></label>
+                <input asp-for="Movie.Poster" class="form-control" />
+                <span asp-validation-for="Movie.Poster" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

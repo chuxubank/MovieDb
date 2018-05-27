@@ -11,9 +11,10 @@ using System;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180527035706_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,15 +182,20 @@ namespace MovieDb.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<decimal>("BoxOffice");
+
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<decimal>("Price");
+                    b.Property<string>("Poster");
 
                     b.Property<double>("Rating");
 
                     b.Property<DateTime>("ReleaseDate");
+
+                    b.Property<string>("Summary")
+                        .HasMaxLength(500);
 
                     b.Property<string>("Title")
                         .IsRequired()

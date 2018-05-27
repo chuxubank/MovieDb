@@ -15,9 +15,9 @@ namespace MovieDb.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
 
-        [Range(1, 100)]
+        [Display(Name = "Box Office")]
         [DataType(DataType.Currency)]
-        public decimal Price { get; set; }
+        public decimal BoxOffice { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -25,5 +25,12 @@ namespace MovieDb.Models
 
         [Range(0, 10)]
         public double Rating { get; set; }
+
+        [StringLength(500)]
+        [DataType(DataType.MultilineText)]
+        public string Summary { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string Poster { get; set; }
     }
 }

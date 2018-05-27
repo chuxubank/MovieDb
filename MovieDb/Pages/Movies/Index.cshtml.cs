@@ -25,7 +25,7 @@ namespace MovieDb.Pages.Movies
 
         public string TitleSort { get; set; }
         public string DateSort { get; set; }
-        public string PriceSort { get; set; }
+        public string BoxOfficeSort { get; set; }
         public string RatingSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
@@ -37,7 +37,7 @@ namespace MovieDb.Pages.Movies
             CurrentSort = sortOrder;
             TitleSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             DateSort = sortOrder == "Release Date" ? "date_desc" : "Release Date";
-            PriceSort = sortOrder == "Price" ? "price_desc" : "Price";
+            BoxOfficeSort = sortOrder == "Box Office" ? "box_office_desc" : "Box Office";
             RatingSort = sortOrder == "Rating" ? "rating_desc" : "Rating";
             if (searchString != null)
             {
@@ -86,11 +86,11 @@ namespace MovieDb.Pages.Movies
                 case "date_desc":
                     movies = movies.OrderByDescending(m => m.ReleaseDate);
                     break;
-                case "Price":
-                    movies = movies.OrderBy(m => m.Price);
+                case "Box Office":
+                    movies = movies.OrderBy(m => m.BoxOffice);
                     break;
-                case "price_desc":
-                    movies = movies.OrderByDescending(m => m.Price);
+                case "box_office_desc":
+                    movies = movies.OrderByDescending(m => m.BoxOffice);
                     break;
                 case "Rating":
                     movies = movies.OrderBy(m => m.Rating);
