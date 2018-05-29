@@ -2,19 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using MovieDb.Authorization;
 using MovieDb.Data;
 using MovieDb.Models;
 
 namespace MovieDb.Pages.Movies
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : DI_BasePageModel
     {
-        private readonly MovieDb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(MovieDb.Data.ApplicationDbContext context)
+        public DeleteModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<ApplicationUser> userManager)
+            : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -27,6 +34,12 @@ namespace MovieDb.Pages.Movies
             if (id == null)
             {
                 return NotFound();
+            }
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Delete);
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
             }
 
             Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
@@ -43,6 +56,12 @@ namespace MovieDb.Pages.Movies
             if (id == null)
             {
                 return NotFound();
+            }
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Delete);
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
             }
 
             Movie = await _context.Movie.FindAsync(id);

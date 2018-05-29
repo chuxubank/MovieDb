@@ -23,14 +23,13 @@ namespace MovieDb
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+                var config = host.Services.GetRequiredService<IConfiguration>();
+                var testUserPw = config["SeedUserPW"];
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    // requires using Microsoft.EntityFrameworkCore;
-                    context.Database.Migrate();
-                    // Requires using RazorPagesMovie.Models;
-                    SeedData.Initialize(services);
+                    SeedData.InitializeAsync(services, testUserPw).Wait();
                 }
                 catch (Exception ex)
                 {

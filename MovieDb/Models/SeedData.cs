@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MovieDb.Authorization;
 using MovieDb.Data;
 
 namespace MovieDb.Models
 {
     public static class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider, string testUserPw)
         {
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
+                var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@moviedb.com");
+                await EnsureRole(serviceProvider, adminID, Constants.MovieAdministratorsRole);
+
+                // allowed user can create and edit contacts that they create
+                var uid = await EnsureUser(serviceProvider, testUserPw, "manager@moviedb.com");
+                await EnsureRole(serviceProvider, uid, Constants.MovieManagersRole);
+
                 // Look for any movies.
                 if (context.Movie.Any())
                 {
@@ -58,6 +68,41 @@ namespace MovieDb.Models
                 );
                 context.SaveChanges();
             }
+        }
+
+        private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
+                                              string testUserPw, string UserName)
+        {
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+
+            var user = await userManager.FindByNameAsync(UserName);
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = UserName };
+                await userManager.CreateAsync(user, testUserPw);
+            }
+
+            return user.Id;
+        }
+
+        private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
+                                                                      string uid, string role)
+        {
+            IdentityResult IR = null;
+            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                IR = await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+
+            var user = await userManager.FindByIdAsync(uid);
+
+            IR = await userManager.AddToRoleAsync(user, role);
+
+            return IR;
         }
     }
 }

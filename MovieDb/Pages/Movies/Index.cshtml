@@ -7,9 +7,12 @@
 
 <h2>Movie Index</h2>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+@if ((await AuthorizationService.AuthorizeAsync(User, Model.Movie, MoiveOperations.Update)).Succeeded)
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
 
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
@@ -94,9 +97,19 @@
                     @Html.DisplayFor(modelItem => item.Rating)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Update)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
+                        <text> | </text>
+                    }
+
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a>
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Delete)).Succeeded)
+                    {
+                        <text> | </text>
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    }
                 </td>
             </tr>
         }

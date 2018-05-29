@@ -16,11 +16,14 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Models\MovieViewModels\" />
-    <Folder Include="Utilities\" />
+    <Folder Include="Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20180527035706_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20180527035706_InitialCreate.cs" />
     <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\Clepsanmia.jpg" />
   </ItemGroup>
 </Project>

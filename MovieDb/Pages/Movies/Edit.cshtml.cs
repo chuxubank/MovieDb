@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MovieDb.Authorization;
 using MovieDb.Data;
 using MovieDb.Models;
 
 namespace MovieDb.Pages.Movies
 {
-    public class EditModel : PageModel
+    public class EditModel : DI_BasePageModel
     {
-        private readonly MovieDb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(MovieDb.Data.ApplicationDbContext context)
+        public EditModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<ApplicationUser> userManager)
+            : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -34,10 +41,17 @@ namespace MovieDb.Pages.Movies
 
             Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
 
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Update);
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
+            }
+
             if (Movie == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -46,6 +60,12 @@ namespace MovieDb.Pages.Movies
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Update);
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
             }
 
             using (var memoryStream = new MemoryStream())

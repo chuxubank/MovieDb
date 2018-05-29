@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MovieDb.Authorization;
 using MovieDb.Data;
 using MovieDb.Models;
 
 namespace MovieDb.Pages.Movies
 {
-    public class CreateModel : PageModel
+    public class CreateModel : DI_BasePageModel
     {
-        private readonly MovieDb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(MovieDb.Data.ApplicationDbContext context)
+        public CreateModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<ApplicationUser> userManager)
+            : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -35,6 +42,13 @@ namespace MovieDb.Pages.Movies
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Create);
+
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
             }
 
             using (var memoryStream = new MemoryStream())

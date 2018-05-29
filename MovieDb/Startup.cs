@@ -14,6 +14,7 @@ using MovieDb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using MovieDb.Authorization;
 
 namespace MovieDb
 {
@@ -38,22 +39,21 @@ namespace MovieDb
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            var skipHTTPS = Configuration.GetValue<bool>("LocalTest:skipHTTPS");
-            services.Configure<MvcOptions>(options =>
-            {
-                
-                if (Environment.IsDevelopment() && !skipHTTPS)
-                {
-                    options.Filters.Add(new RequireHttpsAttribute());
-                }
-            });
+            //var skipHTTPS = Configuration.GetValue<bool>("LocalTest:skipHTTPS");
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    if (!skipHTTPS)
+            //    {
+            //        options.Filters.Add(new RequireHttpsAttribute());
+            //    }
+            //});
 
             services.AddMvc();
-                //.AddRazorPagesOptions(options =>
-                //{
-                //    options.Conventions.AuthorizeFolder("/Account/Manage");
-                //    options.Conventions.AuthorizePage("/Account/Logout");
-                //});
+            //.AddRazorPagesOptions(options =>
+            //{
+            //    options.Conventions.AuthorizeFolder("/Account/Manage");
+            //    options.Conventions.AuthorizePage("/Account/Logout");
+            //});
 
             services.AddMvc(config =>
             {
@@ -64,6 +64,11 @@ namespace MovieDb
             });
 
             services.AddSingleton<IEmailSender, EmailSender>();
+
+            // Authorization handlers.
+            services.AddSingleton<IAuthorizationHandler,MovieAdministratorsAuthorizationHandler>();
+
+            services.AddSingleton<IAuthorizationHandler,MovieManagerAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

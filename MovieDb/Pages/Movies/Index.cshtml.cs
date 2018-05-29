@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,11 +13,16 @@ using MovieDb.Models;
 
 namespace MovieDb.Pages.Movies
 {
-    public class IndexModel : PageModel
+    [AllowAnonymous]
+    public class IndexModel : DI_BasePageModel
     {
-        private readonly MovieDb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(MovieDb.Data.ApplicationDbContext context)
+        public IndexModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<ApplicationUser> userManager)
+            : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -34,9 +41,6 @@ namespace MovieDb.Pages.Movies
         public async Task OnGetAsync(string sortOrder, string currentFilter, string currentMovieGenre,
                                      string movieGenre, string searchString, int? pageIndex)
         {
-
-
-
             CurrentSort = sortOrder;
             TitleSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             DateSort = sortOrder == "Release Date" ? "date_desc" : "Release Date";
