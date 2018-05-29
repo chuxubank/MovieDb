@@ -34,6 +34,9 @@ namespace MovieDb.Pages.Movies
         public async Task OnGetAsync(string sortOrder, string currentFilter, string currentMovieGenre,
                                      string movieGenre, string searchString, int? pageIndex)
         {
+
+
+
             CurrentSort = sortOrder;
             TitleSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             DateSort = sortOrder == "Release Date" ? "date_desc" : "Release Date";

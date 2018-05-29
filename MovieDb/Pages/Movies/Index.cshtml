@@ -71,7 +71,12 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Poster)
+                    @if (item.Poster != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Poster);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src="@imgsrc" height="50" width="50" />
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -87,9 +92,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Summary)
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

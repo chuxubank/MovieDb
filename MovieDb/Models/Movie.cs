@@ -30,7 +30,6 @@ namespace MovieDb.Models
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
-        [DataType(DataType.ImageUrl)]
-        public string Poster { get; set; }
+        public byte[] Poster { get; set; }
     }
 }

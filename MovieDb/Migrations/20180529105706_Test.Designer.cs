@@ -11,8 +11,8 @@ using System;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180527035706_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20180529105706_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,7 +188,7 @@ namespace MovieDb.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Poster");
+                    b.Property<byte[]>("Poster");
 
                     b.Property<double>("Rating");
 

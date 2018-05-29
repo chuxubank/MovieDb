@@ -52,13 +52,18 @@
             @Html.DisplayNameFor(model => model.Movie.Poster)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Movie.Poster)
-        </dd>
-    </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="Movie.ID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
+            @if (Model.Movie.Poster != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Movie.Poster);
+                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                < img src = "@imgsrc" />
+            }
+    </dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Movie.ID" />
+    <input type="submit" value="Delete" class="btn btn-default" /> |
+    <a asp-page="./Index">Back to List</a>
+</form>
 </div>
