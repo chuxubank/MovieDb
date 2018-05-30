@@ -26,34 +26,16 @@ namespace MovieDb.Pages.Movies
 			_context = context;
 		}
 
-		public PaginatedList<Movie> Movie {
-			get; set;
-		}
-		public SelectList Genres {
-			get; set;
-		}
+		public PaginatedList<Movie> Movie { get; set; }
+		public SelectList Genres { get; set; }
 
-		public string TitleSort {
-			get; set;
-		}
-		public string DateSort {
-			get; set;
-		}
-		public string BoxOfficeSort {
-			get; set;
-		}
-		public string RatingSort {
-			get; set;
-		}
-		public string CurrentFilter {
-			get; set;
-		}
-		public string CurrentSort {
-			get; set;
-		}
-		public string CurrentMovieGenre {
-			get; set;
-		}
+		public string TitleSort { get; set; }
+		public string DateSort { get; set; }
+		public string BoxOfficeSort { get; set; }
+		public string RatingSort { get; set; }
+		public string CurrentFilter { get; set; }
+		public string CurrentSort { get; set; }
+		public string CurrentMovieGenre { get; set; }
 
 		public async Task OnGetAsync(string sortOrder, string currentFilter, string currentMovieGenre,
 		                             string movieGenre, string searchString, int? pageIndex)

@@ -20,9 +20,7 @@ namespace MovieDb.Pages.Movies
 			_context = context;
 		}
 
-		public Movie Movie {
-			get; set;
-		}
+		public Movie Movie { get; set; }
 
 		public async Task<IActionResult> OnGetAsync(int? id)
 		{

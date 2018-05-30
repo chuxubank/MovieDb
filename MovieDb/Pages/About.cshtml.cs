@@ -20,9 +20,7 @@ namespace MovieDb.Pages
 			_context = context;
 		}
 
-		public IList<ReleaseDateGroup> Movie {
-			get; set;
-		}
+		public IList<ReleaseDateGroup> Movie { get; set; }
 
 		public async Task OnGetAsync()
 		{

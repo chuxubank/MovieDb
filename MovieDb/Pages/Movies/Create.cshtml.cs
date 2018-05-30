@@ -34,9 +34,7 @@ namespace MovieDb.Pages.Movies
 		}
 
 		[BindProperty]
-		public Movie Movie {
-			get; set;
-		}
+		public Movie Movie { get; set; }
 
 		public async Task<IActionResult> OnPostAsync(IFormFile poster)
 		{

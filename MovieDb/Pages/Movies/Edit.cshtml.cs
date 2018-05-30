@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MovieDb.Authorization;
 using MovieDb.Data;
@@ -29,9 +27,7 @@ namespace MovieDb.Pages.Movies
 		}
 
 		[BindProperty]
-		public Movie Movie {
-			get; set;
-		}
+		public Movie Movie { get; set; }
 
 		public byte[] CurrentPoster = new byte[] { 0 };
 		public async Task<IActionResult> OnGetAsync(int? id)
@@ -42,6 +38,7 @@ namespace MovieDb.Pages.Movies
 			}
 
 			Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
+			CurrentPoster = Movie.Poster;
 
 			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Update);
 			if(!isAuthorized.Succeeded)
