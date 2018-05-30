@@ -35,13 +35,13 @@ namespace MovieDb.Pages.Movies
 				return NotFound();
 			}
 
+            Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
+
 			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Delete);
 			if(!isAuthorized.Succeeded)
 			{
 				return new ChallengeResult();
 			}
-
-			Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
 
 			if(Movie == null)
 			{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MovieDb.Migrations
 {
-    public partial class Test : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

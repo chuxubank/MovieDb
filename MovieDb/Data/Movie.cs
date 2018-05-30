@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MovieDb.Data
 {
@@ -30,6 +32,7 @@ namespace MovieDb.Data
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
+        [BindNever]
         public byte[] Poster { get; set; }
     }
 }

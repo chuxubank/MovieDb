@@ -16,6 +16,7 @@
   <ItemGroup>
     <Folder Include="Authorization\" />
     <Folder Include="Data\MovieViewModels\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20180527035706_InitialCreate.Designer.cs" />
