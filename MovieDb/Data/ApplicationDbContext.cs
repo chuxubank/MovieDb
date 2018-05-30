@@ -23,5 +23,6 @@ namespace MovieDb.Data
         }
 
         public DbSet<Movie> Movie { get; set; }
+        public DbSet<Evaluation> Evaluation { get; set; }
     }
 }

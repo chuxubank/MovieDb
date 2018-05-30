@@ -28,7 +28,7 @@ namespace MovieDb
 				var testUserPw = config["SeedUserPW"];
 				try
 				{
-					SeedData.InitializeAsync(services, testUserPw).Wait();
+					SeedData.Initialize(services, testUserPw).Wait();
 				}
 				catch(Exception ex)
 				{

@@ -17,7 +17,7 @@ namespace MovieDb.Authorization
 				return Task.CompletedTask;
 			}
 
-			// Managers can approve or reject.
+			// Managers can CRUD.
 			if(context.User.IsInRole(Constants.MovieManagersRole))
 			{
 				context.Succeed(requirement);

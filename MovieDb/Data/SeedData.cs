@@ -10,62 +10,66 @@ namespace MovieDb.Data
 {
     public static class SeedData
     {
-        public static async Task InitializeAsync(IServiceProvider serviceProvider, string testUserPw)
+        public static void SeedDB(ApplicationDbContext context)
+        {
+            // Look for any movies.
+            if (context.Movie.Any())
+            {
+                return;   // DB has been seeded
+            }
+
+            context.Movie.AddRange(
+                new Movie
+                {
+                    Title = "When Harry Met Sally",
+                    ReleaseDate = DateTime.Parse("1989-2-12"),
+                    Genre = "Romantic Comedy",
+                    BoxOffice = 7.99M,
+                    Rating = 8.2
+                },
+
+                new Movie
+                {
+                    Title = "Ghostbusters",
+                    ReleaseDate = DateTime.Parse("1984-3-13"),
+                    Genre = "Comedy",
+                    BoxOffice = 8.99M,
+                    Rating = 9.4
+                },
+
+                new Movie
+                {
+                    Title = "Ghostbusters 2",
+                    ReleaseDate = DateTime.Parse("1986-2-23"),
+                    Genre = "Comedy",
+                    BoxOffice = 9.99M,
+                    Rating = 9.1
+                },
+
+                new Movie
+                {
+                    Title = "Rio Bravo",
+                    ReleaseDate = DateTime.Parse("1959-4-15"),
+                    Genre = "Western",
+                    BoxOffice = 3.99M,
+                    Rating = 8.0
+                }
+            );
+            context.SaveChanges();
+        }
+
+        public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
         {
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
+                SeedDB(context);
                 var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@moviedb.com");
                 await EnsureRole(serviceProvider, adminID, Constants.MovieAdministratorsRole);
 
                 // allowed user can create and edit contacts that they create
                 var uid = await EnsureUser(serviceProvider, testUserPw, "manager@moviedb.com");
                 await EnsureRole(serviceProvider, uid, Constants.MovieManagersRole);
-
-                // Look for any movies.
-                if (context.Movie.Any())
-                {
-                    return;   // DB has been seeded
-                }
-
-                context.Movie.AddRange(
-                    new Movie
-                    {
-                        Title = "When Harry Met Sally",
-                        ReleaseDate = DateTime.Parse("1989-2-12"),
-                        Genre = "Romantic Comedy",
-                        BoxOffice = 7.99M,
-                        Rating = 8.2
-                    },
-
-                    new Movie
-                    {
-                        Title = "Ghostbusters",
-                        ReleaseDate = DateTime.Parse("1984-3-13"),
-                        Genre = "Comedy",
-                        BoxOffice = 8.99M,
-                        Rating = 9.4
-                    },
-
-                    new Movie
-                    {
-                        Title = "Ghostbusters 2",
-                        ReleaseDate = DateTime.Parse("1986-2-23"),
-                        Genre = "Comedy",
-                        BoxOffice = 9.99M,
-                        Rating = 9.1
-                    },
-
-                    new Movie
-                    {
-                        Title = "Rio Bravo",
-                        ReleaseDate = DateTime.Parse("1959-4-15"),
-                        Genre = "Western",
-                        BoxOffice = 3.99M,
-                        Rating = 8.0
-                    }
-                );
-                context.SaveChanges();
             }
         }
 
