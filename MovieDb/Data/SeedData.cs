@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MovieDb.Authorization;
-using MovieDb.Data;
 
-namespace MovieDb.Models
+namespace MovieDb.Data
 {
     public static class SeedData
     {
@@ -71,7 +70,8 @@ namespace MovieDb.Models
         }
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
-                                              string testUserPw, string UserName)
+                                                     string testUserPw, 
+                                                     string UserName)
         {
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
@@ -86,7 +86,8 @@ namespace MovieDb.Models
         }
 
         private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
-                                                                      string uid, string role)
+                                                             string uid, 
+                                                             string role)
         {
             IdentityResult IR = null;
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();

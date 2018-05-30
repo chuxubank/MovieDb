@@ -7,12 +7,9 @@
 
 <h2>Movie Index</h2>
 
-@if ((await AuthorizationService.AuthorizeAsync(User, Model.Movie, MoiveOperations.Update)).Succeeded)
-{
-    <p>
-        <a asp-page="Create">Create New</a>
-    </p>
-}
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
 
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
@@ -78,7 +75,7 @@
                     {
                         var base64 = Convert.ToBase64String(item.Poster);
                         var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
-                        <img src="@imgsrc" height="50" width="50" />
+                        <img src="@imgsrc" height="50" />
                     }
                 </td>
                 <td>

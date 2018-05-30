@@ -12,55 +12,56 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieDb.Authorization;
 using MovieDb.Data;
-using MovieDb.Models;
 
 namespace MovieDb.Pages.Movies
 {
-    public class CreateModel : DI_BasePageModel
-    {
-        private readonly ApplicationDbContext _context;
+	public class CreateModel : DI_BasePageModel
+	{
+		private readonly ApplicationDbContext _context;
 
-        public CreateModel(
-            ApplicationDbContext context,
-            IAuthorizationService authorizationService,
-            UserManager<ApplicationUser> userManager)
-            : base(context, authorizationService, userManager)
-        {
-            _context = context;
-        }
+		public CreateModel(
+			ApplicationDbContext context,
+			IAuthorizationService authorizationService,
+			UserManager<ApplicationUser> userManager)
+			: base(context, authorizationService, userManager)
+		{
+			_context = context;
+		}
 
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+		public IActionResult OnGet()
+		{
+			return Page();
+		}
 
-        [BindProperty]
-        public Movie Movie { get; set; }
+		[BindProperty]
+		public Movie Movie {
+			get; set;
+		}
 
-        public async Task<IActionResult> OnPostAsync(IFormFile poster)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+		public async Task<IActionResult> OnPostAsync(IFormFile poster)
+		{
+			if(!ModelState.IsValid)
+			{
+				return Page();
+			}
 
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Create);
+			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Create);
 
-            if (!isAuthorized.Succeeded)
-            {
-                return new ChallengeResult();
-            }
+			if(!isAuthorized.Succeeded)
+			{
+				return new ChallengeResult();
+			}
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await poster.CopyToAsync(memoryStream);
-                Movie.Poster = memoryStream.ToArray();
-            }
+			using(var memoryStream = new MemoryStream())
+			{
+				await poster.CopyToAsync(memoryStream);
+				Movie.Poster = memoryStream.ToArray();
+			}
 
-            _context.Movie.Add(Movie);
-            await _context.SaveChangesAsync();
+			_context.Movie.Add(Movie);
+			await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
-        }
-    }
+			return RedirectToPage("./Index");
+		}
+	}
 }
