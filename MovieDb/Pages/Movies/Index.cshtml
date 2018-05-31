@@ -12,17 +12,26 @@
 </p>
 
 <form asp-page="./Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            <select asp-for="CurrentMovieGenre" asp-items="Model.Genres" class="btn-default">
-                <option value="">All</option>
-            </select>
-
-            Title:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter">
-            <input type="submit" value="Filter" class="btn btn-default" />
-            <a asp-page="./Index">Back to full List</a>
-        </p>
+    <div class="form-actions">
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                <select class="selectpicker form-control" asp-for="CurrentMovieGenre" asp-items="Model.Genres">
+                    <option value="">All</option>
+                    <option data-divider="true"></option>
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                <div class="input-group">
+                    <input class="form-control" placeholder="Search for..." type="text" name="SearchString" value="@Model.CurrentFilter" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Filter</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                <a class="btn btn-default" asp-page="./Index">Back to full List</a>
+            </div>
+        </div>
     </div>
 </form>
 
@@ -79,7 +88,9 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    <a asp-page="./Details" asp-route-id="@item.ID">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
@@ -96,16 +107,13 @@
                 <td>
                     @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Update)).Succeeded)
                     {
-                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
-                        <text> | </text>
+                        <a asp-page="./Edit" class="btn btn-warning btn-sm" asp-route-id="@item.ID">Edit</a>
                     }
-
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a>
 
                     @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Delete)).Succeeded)
                     {
-                        <text> | </text>
-                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                        <text>&nbsp;</text>
+                        <a asp-page="./Delete" class="btn btn-danger btn-sm" asp-route-id="@item.ID">Delete</a>
                     }
                 </td>
             </tr>
@@ -116,19 +124,30 @@
     var prevDisabled = !Model.Movie.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Movie.HasNextPage ? "disabled" : "";
 }
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Movie.PageIndex - 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   asp-route-currentMovieGenre="@Model.CurrentMovieGenre"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Movie.PageIndex + 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   asp-route-currentMovieGenre="@Model.CurrentMovieGenre"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous">
+            <a asp-page="./Index"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Movie.PageIndex - 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               asp-route-currentMovieGenre="@Model.CurrentMovieGenre"
+               class="btn btn-default @prevDisabled">
+                <span aria-hidden="true">&larr;</span>
+                Previous
+            </a>
+        </li>
+        <li class="next">
+            <a asp-page="./Index"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Movie.PageIndex + 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               asp-route-currentMovieGenre="@Model.CurrentMovieGenre"
+               class="btn btn-default @nextDisabled">
+                Next
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+

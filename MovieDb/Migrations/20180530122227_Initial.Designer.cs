@@ -11,9 +11,10 @@ using System;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180530122227_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,6 +177,31 @@ namespace MovieDb.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MovieDb.Data.Comment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("MovieID");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("MovieDb.Data.Movie", b =>
                 {
                     b.Property<int>("ID")
@@ -188,8 +214,6 @@ namespace MovieDb.Migrations
                         .HasMaxLength(30);
 
                     b.Property<byte[]>("Poster");
-
-                    b.Property<double>("Rating");
 
                     b.Property<DateTime>("ReleaseDate");
 
@@ -248,6 +272,18 @@ namespace MovieDb.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MovieDb.Data.Comment", b =>
+                {
+                    b.HasOne("MovieDb.Data.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MovieDb.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }

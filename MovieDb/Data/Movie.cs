@@ -27,7 +27,7 @@ namespace MovieDb.Data
         public string Genre { get; set; }
 
         [Range(0, 10)]
-        public double Rating { get; set; }
+        public double Rating { get; }
 
         [StringLength(500)]
         [DataType(DataType.MultilineText)]

@@ -21,8 +21,9 @@ namespace MovieDb.Pages.Movies
 		}
 
 		public Movie Movie { get; set; }
+        public PaginatedList<Comment> Comment { get; set; }
 
-		public async Task<IActionResult> OnGetAsync(int? id)
+		public async Task<IActionResult> OnGetAsync(int? id, int? pageIndex)
 		{
 			if(id == null)
 			{
@@ -35,6 +36,14 @@ namespace MovieDb.Pages.Movies
 			{
 				return NotFound();
 			}
+
+            IQueryable<Comment> comments = (from c in _context.Comment select c).Where(c => c.MovieID == id);
+            int pageSize = 6;
+            Comment = await PaginatedList<Comment>.CreateAsync(comments.AsNoTracking(), pageIndex ?? 1, pageSize);
+            foreach(var c in Comment)
+            {
+                c.User = await _context.Users.SingleOrDefaultAsync(u => u.Id == c.UserID);
+            }
 			return Page();
 		}
 	}

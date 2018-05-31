@@ -61,6 +61,55 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Movie.ID">Edit</a> |
+    @if ((await AuthorizationService.AuthorizeAsync(User, Model.Movie, MoiveOperations.Update)).Succeeded)
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Movie.ID">Edit</a>
+        <text> | </text>
+    }
     <a asp-page="./Index">Back to List</a>
 </div>
+<br />
+
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-10">
+            <h4>Comments</h4>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2" >
+            <a class="btn btn-primary" asp-page="../Comments/Create" asp-route-id="@Model.Movie.ID">Create a Comment</a>
+        </div>
+    </div>
+    <hr />
+    <div>
+        @foreach (var item in Model.Comment)
+        {
+            <blockquote>
+                <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                <footer>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                    <text>&nbsp;Rating:</text>
+                    @for (int i = 0; i < item.Rating; i++)
+                    {
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    }
+                    <text>&nbsp;At:</text>
+                    <cite title="Date">@Html.DisplayFor(modelItem => item.Date)</cite>
+                </footer>
+            </blockquote>
+        }
+    </div>
+</div>
+@{
+    var prevDisabled = !Model.Comment.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Comment.HasNextPage ? "disabled" : "";
+}
+<a asp-page="./Details"
+   asp-route-pageIndex="@(Model.Comment.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Details"
+   asp-route-pageIndex="@(Model.Comment.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

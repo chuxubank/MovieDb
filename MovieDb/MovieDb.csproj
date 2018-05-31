@@ -7,6 +7,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="bootstrap-select" Version="1.13.1" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
@@ -16,14 +17,5 @@
   <ItemGroup>
     <Folder Include="Authorization\" />
     <Folder Include="Data\MovieViewModels\" />
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Migrations\20180527035706_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20180527035706_InitialCreate.cs" />
-    <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="wwwroot\images\Clepsanmia.jpg" />
   </ItemGroup>
 </Project>

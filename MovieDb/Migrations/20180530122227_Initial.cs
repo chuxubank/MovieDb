@@ -56,7 +56,6 @@ namespace MovieDb.Migrations
                     BoxOffice = table.Column<decimal>(nullable: false),
                     Genre = table.Column<string>(maxLength: 30, nullable: false),
                     Poster = table.Column<byte[]>(nullable: true),
-                    Rating = table.Column<double>(nullable: false),
                     ReleaseDate = table.Column<DateTime>(nullable: false),
                     Summary = table.Column<string>(maxLength: 500, nullable: true),
                     Title = table.Column<string>(maxLength: 60, nullable: false)
@@ -172,6 +171,35 @@ namespace MovieDb.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(maxLength: 500, nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    MovieID = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Comment_Movie_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movie",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comment_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +236,16 @@ namespace MovieDb.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_MovieID",
+                table: "Comment",
+                column: "MovieID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_UserID",
+                table: "Comment",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -228,10 +266,13 @@ namespace MovieDb.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Movie");
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Movie");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

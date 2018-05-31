@@ -24,8 +24,7 @@ namespace MovieDb.Data
                     Title = "When Harry Met Sally",
                     ReleaseDate = DateTime.Parse("1989-2-12"),
                     Genre = "Romantic Comedy",
-                    BoxOffice = 7.99M,
-                    Rating = 8.2
+                    BoxOffice = 7.99M
                 },
 
                 new Movie
@@ -33,8 +32,7 @@ namespace MovieDb.Data
                     Title = "Ghostbusters",
                     ReleaseDate = DateTime.Parse("1984-3-13"),
                     Genre = "Comedy",
-                    BoxOffice = 8.99M,
-                    Rating = 9.4
+                    BoxOffice = 8.99M
                 },
 
                 new Movie
@@ -42,8 +40,7 @@ namespace MovieDb.Data
                     Title = "Ghostbusters 2",
                     ReleaseDate = DateTime.Parse("1986-2-23"),
                     Genre = "Comedy",
-                    BoxOffice = 9.99M,
-                    Rating = 9.1
+                    BoxOffice = 9.99M
                 },
 
                 new Movie
@@ -51,8 +48,7 @@ namespace MovieDb.Data
                     Title = "Rio Bravo",
                     ReleaseDate = DateTime.Parse("1959-4-15"),
                     Genre = "Western",
-                    BoxOffice = 3.99M,
-                    Rating = 8.0
+                    BoxOffice = 3.99M
                 }
             );
             context.SaveChanges();
