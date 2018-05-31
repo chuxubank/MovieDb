@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,11 +13,14 @@ namespace MovieDb.Pages.Comments
 {
     public class EditModel : PageModel
     {
-        private readonly MovieDb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(MovieDb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context,
+                         UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -29,14 +33,12 @@ namespace MovieDb.Pages.Comments
                 return NotFound();
             }
 
-            Comment = await _context.Comment
-                .Include(c => c.Movie).SingleOrDefaultAsync(m => m.ID == id);
+            Comment = await _context.Comment.SingleOrDefaultAsync(c => c.ID == id);
 
             if (Comment == null)
             {
                 return NotFound();
             }
-           ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Genre");
             return Page();
         }
 
@@ -46,6 +48,8 @@ namespace MovieDb.Pages.Comments
             {
                 return Page();
             }
+
+            Comment.Date = DateTime.Now;
 
             _context.Attach(Comment).State = EntityState.Modified;
 

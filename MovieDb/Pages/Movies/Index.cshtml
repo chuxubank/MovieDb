@@ -112,7 +112,6 @@
 
                     @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Delete)).Succeeded)
                     {
-                        <text>&nbsp;</text>
                         <a asp-page="./Delete" class="btn btn-danger btn-sm" asp-route-id="@item.ID">Delete</a>
                     }
                 </td>

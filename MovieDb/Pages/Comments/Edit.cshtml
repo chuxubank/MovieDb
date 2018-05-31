@@ -14,21 +14,8 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Comment.ID" />
-            <div class="form-group">
-                <label asp-for="Comment.MovieID" class="control-label"></label>
-                <select asp-for="Comment.MovieID" class="form-control" asp-items="ViewBag.MovieID"></select>
-                <span asp-validation-for="Comment.MovieID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comment.UserID" class="control-label"></label>
-                <input asp-for="Comment.UserID" class="form-control" />
-                <span asp-validation-for="Comment.UserID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comment.Date" class="control-label"></label>
-                <input asp-for="Comment.Date" class="form-control" />
-                <span asp-validation-for="Comment.Date" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Comment.MovieID" />
+            <input type="hidden" asp-for="Comment.UserID" />
             <div class="form-group">
                 <label asp-for="Comment.Rating" class="control-label"></label>
                 <input asp-for="Comment.Rating" class="form-control" />
