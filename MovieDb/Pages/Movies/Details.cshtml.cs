@@ -38,9 +38,12 @@ namespace MovieDb.Pages.Movies
 
             Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
 
+            await _context.Entry(Movie).Collection(m => m.Comments).LoadAsync();
+
             CurrentUser = await _userManager.GetUserAsync(HttpContext.User);
 
-            CurrentUserComment = await _context.Comment.SingleAsync(c => c.MovieID == Movie.ID && c.UserID == CurrentUser.Id);
+            if (CurrentUser != null)
+                CurrentUserComment = Movie.Comments.SingleOrDefault(c => c.UserID == CurrentUser.Id);
 
             if (Movie == null)
             {
@@ -49,19 +52,20 @@ namespace MovieDb.Pages.Movies
 
             IQueryable<Comment> comments = (from c in _context.Comment select c).Where(c => c.MovieID == id);
             int pageSize = 6;
-            Comment = await PaginatedList<Comment>.CreateAsync(comments.AsNoTracking(), pageIndex ?? 1, pageSize);
+            Comment = await PaginatedList<Comment>.CreateAsync(comments, pageIndex ?? 1, pageSize);
             foreach (var c in Comment)
             {
                 c.User = await _context.Users.SingleOrDefaultAsync(u => u.Id == c.UserID);
             }
+
             return Page();
         }
 
-        public async Task<bool> HasCommentAsync()
+        public bool HasCurrentUserComment()
         {
-            if (!Comment.Any())
+            if (!Comment.Any() || CurrentUser == null)
                 return false;
-            return (await _context.Comment.SingleAsync(c => c.MovieID == Movie.ID && c.UserID == CurrentUser.Id) != null);
+            return CurrentUserComment != null;
         }
     }
 }

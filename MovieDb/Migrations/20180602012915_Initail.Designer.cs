@@ -11,8 +11,8 @@ using System;
 namespace MovieDb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180530122227_Initial")]
-    partial class Initial
+    [Migration("20180602012915_Initail")]
+    partial class Initail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -277,12 +277,12 @@ namespace MovieDb.Migrations
             modelBuilder.Entity("MovieDb.Data.Comment", b =>
                 {
                     b.HasOne("MovieDb.Data.Movie", "Movie")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MovieDb.Data.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618

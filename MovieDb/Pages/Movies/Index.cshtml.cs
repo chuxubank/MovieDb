@@ -68,7 +68,8 @@ namespace MovieDb.Pages.Movies
                                             orderby m.Genre
                                             select m.Genre;
 
-            IQueryable<Movie> movies = from m in _context.Movie
+            //Only IEnumerable in memeory can sort Rating
+            IEnumerable<Movie> movies = from m in _context.Movie.Include("Comments")
                                        select m;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -118,7 +119,7 @@ namespace MovieDb.Pages.Movies
 
             Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
             int pageSize = 6;
-            Movie = await PaginatedList<Movie>.CreateAsync(movies.AsNoTracking(), pageIndex ?? 1, pageSize);
+            Movie = PaginatedList<Movie>.Create(movies, pageIndex ?? 1, pageSize);
         }
     }
 }

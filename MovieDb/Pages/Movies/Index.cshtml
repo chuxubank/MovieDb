@@ -102,7 +102,14 @@
                     @Html.DisplayFor(modelItem => item.Genre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
+                    @if (item.Rating == -1)
+                    {
+                        <text>No Rating Yet</text>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Rating);
+                    }
                 </td>
                 <td>
                     @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Update)).Succeeded)

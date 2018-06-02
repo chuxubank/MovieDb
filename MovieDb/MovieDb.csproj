@@ -18,4 +18,7 @@
     <Folder Include="Authorization\" />
     <Folder Include="Data\MovieViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.db" />
+  </ItemGroup>
 </Project>

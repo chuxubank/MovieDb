@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -26,14 +28,25 @@ namespace MovieDb.Data
         [StringLength(30)]
         public string Genre { get; set; }
 
-        [Range(0, 10)]
-        public double Rating { get; }
-
         [StringLength(500)]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
-        [BindNever]
         public byte[] Poster { get; set; }
+
+        [NotMapped]
+        [Column(TypeName = "decimal(5, 2)")]
+        public decimal Rating
+        {
+            get
+            {
+                if (Comments.Count != 0)
+                    return (decimal)Comments.Sum(c => c.Rating) / Comments.Count;
+                else
+                    return -1;
+            }
+        }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }
