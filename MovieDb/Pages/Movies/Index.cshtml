@@ -112,12 +112,12 @@
                     }
                 </td>
                 <td>
-                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Update)).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MovieOperations.Update)).Succeeded)
                     {
                         <a asp-page="./Edit" class="btn btn-warning btn-sm" asp-route-id="@item.ID">Edit</a>
                     }
 
-                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MoiveOperations.Delete)).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item, MovieOperations.Delete)).Succeeded)
                     {
                         <a asp-page="./Delete" class="btn btn-danger btn-sm" asp-route-id="@item.ID">Delete</a>
                     }

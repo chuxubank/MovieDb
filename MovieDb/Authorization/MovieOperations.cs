@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace MovieDb.Authorization
 {
-    public static class MoiveOperations
+    public static class MovieOperations
     {
         public static OperationAuthorizationRequirement Create =
           new OperationAuthorizationRequirement { Name = Constants.CreateOperationName };

@@ -37,7 +37,7 @@ namespace MovieDb.Pages.Movies
 
             Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
 
-			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Delete);
+			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Delete);
 			if(!isAuthorized.Succeeded)
 			{
 				return new ChallengeResult();
@@ -57,7 +57,7 @@ namespace MovieDb.Pages.Movies
 				return NotFound();
 			}
 
-			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Delete);
+			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Delete);
 
 			if(!isAuthorized.Succeeded)
 			{

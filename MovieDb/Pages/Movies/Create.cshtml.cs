@@ -43,7 +43,7 @@ namespace MovieDb.Pages.Movies
 				return Page();
 			}
 
-			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Create);
+			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Create);
 
 			if(!isAuthorized.Succeeded)
 			{

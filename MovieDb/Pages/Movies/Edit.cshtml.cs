@@ -29,6 +29,8 @@ namespace MovieDb.Pages.Movies
         [BindProperty]
         public Movie Movie { get; set; }
 
+        public byte[] CurrentPoster { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -38,7 +40,11 @@ namespace MovieDb.Pages.Movies
 
             Movie = await _context.Movie.SingleOrDefaultAsync(m => m.ID == id);
 
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Update);
+            CurrentPoster = Movie.Poster;
+
+            await _context.Entry(Movie).Collection(m => m.Comments).LoadAsync();
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Update);
             if (!isAuthorized.Succeeded)
             {
                 return new ChallengeResult();
@@ -59,7 +65,7 @@ namespace MovieDb.Pages.Movies
                 return Page();
             }
 
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MoiveOperations.Update);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Update);
             if (!isAuthorized.Succeeded)
             {
                 return new ChallengeResult();
@@ -72,6 +78,10 @@ namespace MovieDb.Pages.Movies
                     await poster.CopyToAsync(memoryStream);
                     Movie.Poster = memoryStream.ToArray();
                 }
+            }
+            else
+            {
+                Movie.Poster = CurrentPoster;
             }
 
             _context.Attach(Movie).State = EntityState.Modified;

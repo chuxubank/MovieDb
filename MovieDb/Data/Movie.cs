@@ -35,15 +35,25 @@ namespace MovieDb.Data
         public byte[] Poster { get; set; }
 
         [NotMapped]
-        [Column(TypeName = "decimal(5, 2)")]
         public decimal Rating
         {
             get
             {
-                if (Comments.Count != 0)
+                if (Comments!=null && Comments.Count != 0)
                     return (decimal)Comments.Sum(c => c.Rating) / Comments.Count;
                 else
                     return -1;
+            }
+        }
+
+        [NotMapped]
+        public int CommentsCount
+        {
+            get
+            {
+                if (Comments != null)
+                    return Comments.Count;
+                else return 0;
             }
         }
 
