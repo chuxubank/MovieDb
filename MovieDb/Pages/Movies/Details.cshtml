@@ -68,7 +68,7 @@
     </dl>
 </div>
 <div>
-    @if ((await AuthorizationService.AuthorizeAsync(User, Model.Movie, MovieOperations.Update)).Succeeded)
+    @if ((await AuthorizationService.AuthorizeAsync(User, Model.Movie, EntityOperations.Update)).Succeeded)
     {
         <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@Model.Movie.ID">Edit</a>
     }

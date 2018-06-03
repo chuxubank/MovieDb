@@ -28,8 +28,14 @@ namespace MovieDb.Pages.Movies
 			_context = context;
 		}
 
-		public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
 		{
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, EntityOperations.Create);
+
+            if (!isAuthorized.Succeeded)
+            {
+                return new ChallengeResult();
+            }
 			return Page();
 		}
 
@@ -43,7 +49,7 @@ namespace MovieDb.Pages.Movies
 				return Page();
 			}
 
-			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Create);
+			var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, EntityOperations.Create);
 
 			if(!isAuthorized.Succeeded)
 			{

@@ -40,7 +40,14 @@
             @Html.DisplayNameFor(model => model.Movie.Rating)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Movie.Rating)
+            @if (Model.Movie.Rating == -1)
+            {
+                <text>No Rating Yet</text>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Movie.Rating);
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Movie.Summary)
@@ -56,14 +63,14 @@
             {
                 var base64 = Convert.ToBase64String(Model.Movie.Poster);
                 var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
-                <img src = "@imgsrc" />
+                <img src="@imgsrc" />
             }
-    </dd>
-</dl>
+        </dd>
+    </dl>
 
-<form method="post">
-    <input type="hidden" asp-for="Movie.ID" />
-    <input type="submit" value="Delete" class="btn btn-danger" />
-    <a class="btn btn-default" asp-page="./Index">Back to List</a>
-</form>
+    <form method="post">
+        <input type="hidden" asp-for="Movie.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a class="btn btn-default" asp-page="./Index">Back to List</a>
+    </form>
 </div>

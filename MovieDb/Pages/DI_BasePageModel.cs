@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieDb.Data;
 
-namespace MovieDb.Pages.Movies
+namespace MovieDb.Pages
 {
 	public class DI_BasePageModel : PageModel
     {

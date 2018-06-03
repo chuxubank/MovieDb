@@ -85,6 +85,8 @@ namespace MovieDb
             services.AddSingleton<IEmailSender, EmailSender>();
 
             // Authorization handlers.
+            services.AddScoped<IAuthorizationHandler,CommentIsOwnerAuthorizationHandler>();
+
             services.AddSingleton<IAuthorizationHandler,MovieAdministratorsAuthorizationHandler>();
 
             services.AddSingleton<IAuthorizationHandler,MovieManagerAuthorizationHandler>();

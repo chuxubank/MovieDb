@@ -44,7 +44,7 @@ namespace MovieDb.Pages.Movies
 
             await _context.Entry(Movie).Collection(m => m.Comments).LoadAsync();
 
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Update);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, EntityOperations.Update);
             if (!isAuthorized.Succeeded)
             {
                 return new ChallengeResult();
@@ -65,7 +65,7 @@ namespace MovieDb.Pages.Movies
                 return Page();
             }
 
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, MovieOperations.Update);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, EntityOperations.Update);
             if (!isAuthorized.Succeeded)
             {
                 return new ChallengeResult();

@@ -20,10 +20,10 @@ namespace MovieDb.Pages
             _context = context;
         }
 
-        public List<Movie> TopRatingMovies { get; set; }
-        public List<Movie> TopBoxOfficeMovies { get; set; }
-        public List<Movie> TopCommentMovies { get; set; }
-        public List<Movie> RecentMovies { get; set; }
+        public IList<Movie> TopRatingMovies { get; set; }
+        public IList<Movie> TopBoxOfficeMovies { get; set; }
+        public IList<Movie> TopCommentMovies { get; set; }
+        public IList<Movie> RecentMovies { get; set; }
 
         public int count = 5;
 

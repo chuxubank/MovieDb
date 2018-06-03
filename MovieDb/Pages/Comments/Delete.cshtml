@@ -13,17 +13,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Comment.UserID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Comment.UserID)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Comment.Date)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Comment.Date)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment.Movie)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comment.Movie.Title)
+        </dd>
+        @if (User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole))
+        {
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Comment.User)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Comment.User.UserName)
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Comment.Rating)
         </dt>
@@ -36,14 +46,9 @@
         <dd>
             @Html.DisplayFor(model => model.Comment.Content)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment.Movie)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Comment.Movie.Genre)
-        </dd>
+
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Comment.ID" />
         <input type="submit" value="Delete" class="btn btn-default" /> |

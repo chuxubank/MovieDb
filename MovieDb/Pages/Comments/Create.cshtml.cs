@@ -53,7 +53,7 @@ namespace MovieDb.Pages.Comments
             _context.Comment.Add(Comment);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Movies/Details",new {id = Comment.MovieID});
         }
     }
 }

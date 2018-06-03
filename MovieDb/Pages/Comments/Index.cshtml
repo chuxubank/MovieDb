@@ -7,23 +7,70 @@
 
 <h2>Index</h2>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions">
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                <select class="selectpicker form-control" data-live-search="true" asp-for="CurrentMovieID" asp-items="Model.Movies">
+                    <option value="">All</option>
+                    <option data-divider="true"></option>
+                </select>
+            </div>
+            @if (User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole))
+            {
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                    <select class="selectpicker form-control" data-live-search="true" asp-for="CurrentUserID" asp-items="Model.Users">
+                        <option value="">All</option>
+                        <option data-divider="true"></option>
+                    </select>
+                </div>
+            }
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                <div class="input-group">
+                    <input class="form-control" placeholder="Search for..." type="text" name="SearchString" value="@Model.CurrentFilter" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Filter</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                <a class="btn btn-default" asp-page="./Index">Back to full List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Comment[0].Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment[0].Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment[0].Content)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter"
+                   asp-route-currentMovieID="@Model.CurrentMovieID"
+                   asp-route-currentUserID="@Model.CurrentUserID">
+                    @Html.DisplayNameFor(model => model.Comment[0].Date)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment[0].Movie)
+            </th>
+            @if (User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment[0].User.UserName)
+                </th>
+            }
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.RatingSort"
+                   asp-route-currentFilter="@Model.CurrentFilter"
+                   asp-route-currentMovieID="@Model.CurrentMovieID"
+                   asp-route-currentUserID="@Model.CurrentUserID">
+                    @Html.DisplayNameFor(model => model.Comment[0].Rating)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment[0].Content)
             </th>
             <th></th>
         </tr>
@@ -36,20 +83,58 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                @if (User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole))
+                {
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                }
+                <td>
                     @Html.DisplayFor(modelItem => item.Rating)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Movie.Title)
-                </td>
-                <td>
                     <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.Comment.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Comment.HasNextPage ? "disabled" : "";
+}
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous">
+            <a asp-page="./Index"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Comment.PageIndex - 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               asp-route-currentMovieID="@Model.CurrentMovieID"
+               asp-route-currentUserID="@Model.CurrentUserID"
+               class="btn btn-default @prevDisabled">
+                <span aria-hidden="true">&larr;</span>
+                Previous
+            </a>
+        </li>
+        <li class="next">
+            <a asp-page="./Index"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Comment.PageIndex + 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               asp-route-currentMovieID="@Model.CurrentMovieID"
+               asp-route-currentUserID="@Model.CurrentUserID"
+               class="btn btn-default @nextDisabled">
+                Next
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
