@@ -87,9 +87,9 @@
                 </td>
                 @if (User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole))
                 {
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.UserName)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
                 }
                 <td>
                     @Html.DisplayFor(modelItem => item.Rating)

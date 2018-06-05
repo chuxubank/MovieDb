@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MovieDb.Authorization;
 using MovieDb.Data;
 
 namespace MovieDb.Pages.Comments
@@ -78,13 +79,18 @@ namespace MovieDb.Pages.Comments
 
             IQueryable<Movie> movies = from m in _context.Movie
                                        select m;
-            
+
             IQueryable<ApplicationUser> users = from u in _context.Users
                                                 select u;
 
             IQueryable<Comment> comments = from c in _context.Comment.Include("Movie")
-                                                    .Include("User")
+                                             .Include("User")
                                            select c;
+            
+            if (!(User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole)))
+            {
+                comments = comments.Where(c => c.UserID.Equals(_userManager.GetUserId(User)));
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {

@@ -28,11 +28,9 @@ namespace MovieDb.Pages.Movies
 			_context = context;
 		}
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
 		{
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, EntityOperations.Create);
-
-            if (!isAuthorized.Succeeded)
+            if (!(User.IsInRole(Constants.MovieAdministratorsRole) || User.IsInRole(Constants.MovieManagersRole)))
             {
                 return new ChallengeResult();
             }
@@ -56,11 +54,14 @@ namespace MovieDb.Pages.Movies
 				return new ChallengeResult();
 			}
 
-			using(var memoryStream = new MemoryStream())
-			{
-				await poster.CopyToAsync(memoryStream);
-				Movie.Poster = memoryStream.ToArray();
-			}
+            if (poster != null && poster.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await poster.CopyToAsync(memoryStream);
+                    Movie.Poster = memoryStream.ToArray();
+                }
+            }
 
 			_context.Movie.Add(Movie);
 			await _context.SaveChangesAsync();
