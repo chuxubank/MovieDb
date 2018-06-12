@@ -28,7 +28,7 @@ namespace MovieDb.Data
         [StringLength(30)]
         public string Genre { get; set; }
 
-        [StringLength(500)]
+        [StringLength(50000)]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 

@@ -23,18 +23,26 @@
             }
             var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
 
-            <div class="item @active">
+            <div class="item @active" style="max-height:500px">
                 @if (base64 == "")
                 {
                     <img src="~/images/banner1.svg" alt="Visual Studio" class="img-responsive" />
                 }
                 else
                 {
-                    <img src="@imgsrc" alt="@Model.RecentMovies[i].Title" class="img-responsive center-block" />
+                    <img src="@imgsrc" alt="@Model.RecentMovies[i].Title" class="img-responsive center-block" style="width: 100%;height: 100%;object-fit:cover;" />
                 }
                 <div class="carousel-caption" role="option">
                     <h3>@Model.RecentMovies[i].Title</h3>
-                    <p>@Model.RecentMovies[i].Summary</p>
+                    @if (Model.RecentMovies[i].Summary.Length > 100)
+                    {
+                        <p>@Model.RecentMovies[i].Summary.Substring(0, Model.RecentMovies[i].Summary.IndexOfAny(new char[] { ',', '.', ';' }))</p>
+                    }
+                    else
+                    {
+                        <p>@Model.RecentMovies[i].Summary</p>
+
+                    }
                     <a class="btn btn-default" asp-page="./Movies/Details" asp-route-id="@Model.RecentMovies[i].ID">
                         View Details
                     </a>
